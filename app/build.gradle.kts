@@ -1,4 +1,18 @@
 import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
+import java.util.Base64
+
+// Automatically decode debug.keyStore from debug.keystore.base64 if missing
+val debugKeystoreFile = file("${rootDir}/debug.keystore")
+val base64KeystoreFile = file("${rootDir}/debug.keystore.base64")
+if (!debugKeystoreFile.exists() && base64KeystoreFile.exists()) {
+    try {
+        val decodedBytes = Base64.getDecoder().decode(base64KeystoreFile.readText().trim())
+        debugKeystoreFile.writeBytes(decodedBytes)
+        println("Successfully decoded debug.keystore from debug.keystore.base64")
+    } catch (e: Exception) {
+        println("Warning: Failed to decode debug.keystore: ${e.message}")
+    }
+}
 
 plugins {
   alias(libs.plugins.android.application)
