@@ -1,0 +1,6 @@
+{
+  "name": "parv-health",
+  "description": "A simple, privacy-first local pedometer and step tracking app.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
