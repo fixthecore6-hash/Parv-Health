@@ -179,7 +179,7 @@ fun TodayScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.parv_logo),
+                        painter = painterResource(id = R.drawable.ic_parv_logo),
                         contentDescription = stringResource(R.string.logo_content_desc),
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
