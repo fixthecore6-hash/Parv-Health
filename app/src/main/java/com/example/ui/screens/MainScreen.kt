@@ -11,12 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BarChart
-import androidx.compose.material.icons.outlined.DirectionsWalk
+import androidx.compose.material.icons.automirrored.outlined.DirectionsWalk
+import androidx.compose.material.icons.automirrored.rounded.DirectionsWalk
 import androidx.compose.material.icons.outlined.FitnessCenter
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Restaurant
 import androidx.compose.material.icons.rounded.BarChart
-import androidx.compose.material.icons.rounded.DirectionsWalk
 import androidx.compose.material.icons.rounded.FitnessCenter
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Restaurant
@@ -210,9 +210,9 @@ fun MainScreen(
                             icon = {
                                 Icon(
                                     imageVector = if (selectedTab == TODAY) {
-                                        Icons.Rounded.DirectionsWalk
+                                        Icons.AutoMirrored.Rounded.DirectionsWalk
                                     } else {
-                                        Icons.Outlined.DirectionsWalk
+                                        Icons.AutoMirrored.Outlined.DirectionsWalk
                                     },
                                     contentDescription = stringResource(R.string.nav_today)
                                 )
@@ -340,9 +340,9 @@ fun MainScreen(
                             icon = {
                                 Icon(
                                     imageVector = if (selectedTab == TODAY) {
-                                        Icons.Rounded.DirectionsWalk
+                                        Icons.AutoMirrored.Rounded.DirectionsWalk
                                     } else {
-                                        Icons.Outlined.DirectionsWalk
+                                        Icons.AutoMirrored.Outlined.DirectionsWalk
                                     },
                                     contentDescription = stringResource(R.string.nav_today)
                                 )

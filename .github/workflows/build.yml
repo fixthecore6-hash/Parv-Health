@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Node 20
@@ -19,10 +19,10 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: Install Node dependencies
         run: npm install
 
-      - name: Build web app
+      - name: Build web application assets
         run: npm run build
 
       - name: Set up JDK 17
@@ -30,8 +30,34 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+          cache: 'gradle'
 
-      - name: Generate Gradle Wrapper if needed
+      - name: Setup Debug Keystore
+        run: |
+          if [ -f "debug.keystore.base64" ]; then
+            echo "Decoding debug.keystore from debug.keystore.base64..."
+            base64 -d debug.keystore.base64 > debug.keystore
+          elif [ ! -f "debug.keystore" ]; then
+            echo "Generating debug.keystore via keytool..."
+            keytool -genkey -v -keystore debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US"
+          fi
+          echo "Debug keystore verified."
+
+      - name: Setup Firebase configuration
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+            echo "Configuring app/google-services.json from repository secret..."
+            echo "$GOOGLE_SERVICES_JSON" > app/google-services.json
+          elif [ -f "app/google-services.json" ]; then
+            echo "Using committed app/google-services.json configuration."
+          else
+            echo "Error: app/google-services.json not found and GOOGLE_SERVICES_JSON secret not set."
+            exit 1
+          fi
+
+      - name: Ensure Gradle Wrapper executable
         run: |
           if [ ! -f "gradlew" ]; then
             gradle wrapper
@@ -41,7 +67,7 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
 
-      - name: Upload APK Artifact
+      - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: parv-health-debug

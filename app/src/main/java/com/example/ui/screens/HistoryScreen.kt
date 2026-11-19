@@ -31,7 +31,7 @@ import androidx.compose.material.icons.outlined.DeleteOutline
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.DirectionsWalk
+import androidx.compose.material.icons.automirrored.rounded.DirectionsWalk
 import androidx.compose.material.icons.rounded.FitnessCenter
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Sensors
@@ -618,7 +618,7 @@ private fun EmptyHistoryCard() {
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Rounded.DirectionsWalk,
+                    imageVector = Icons.AutoMirrored.Rounded.DirectionsWalk,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurface
                 )

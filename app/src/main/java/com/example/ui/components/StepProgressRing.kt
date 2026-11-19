@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.DirectionsWalk
+import androidx.compose.material.icons.automirrored.rounded.DirectionsWalk
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -173,7 +173,7 @@ fun StepProgressRing(
             verticalArrangement = Arrangement.Center
         ) {
             Icon(
-                imageVector = if (goalReached) Icons.Rounded.CheckCircle else Icons.Rounded.DirectionsWalk,
+                imageVector = if (goalReached) Icons.Rounded.CheckCircle else Icons.AutoMirrored.Rounded.DirectionsWalk,
                 contentDescription = null,
                 tint = accents.greenPrimary,
                 modifier = Modifier.size(24.dp)

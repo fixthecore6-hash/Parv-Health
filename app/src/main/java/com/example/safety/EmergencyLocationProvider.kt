@@ -157,23 +157,45 @@ class EmergencyLocationProvider(private val context: Context) {
         manager: LocationManager,
         provider: String
     ): LocationFix? = suspendCancellableCoroutine { cont ->
-        val signal = CancellationSignal()
-        cont.invokeOnCancellation { signal.cancel() }
-        try {
-            LocationManagerCompat.getCurrentLocation(
-                manager,
-                provider,
-                signal,
-                ContextCompat.getMainExecutor(context)
-            ) { loc ->
-                if (cont.isActive) {
-                    cont.resume(loc?.toLocationFix())
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val signal = android.os.CancellationSignal()
+            cont.invokeOnCancellation { signal.cancel() }
+            try {
+                manager.getCurrentLocation(
+                    provider,
+                    signal,
+                    ContextCompat.getMainExecutor(context)
+                ) { loc ->
+                    if (cont.isActive) {
+                        cont.resume(loc?.toLocationFix())
+                    }
                 }
+            } catch (_: SecurityException) {
+                if (cont.isActive) cont.resume(null)
+            } catch (_: Exception) {
+                if (cont.isActive) cont.resume(null)
             }
-        } catch (_: SecurityException) {
-            if (cont.isActive) cont.resume(null)
-        } catch (_: Exception) {
-            if (cont.isActive) cont.resume(null)
+        } else {
+            @Suppress("DEPRECATION")
+            val signal = androidx.core.os.CancellationSignal()
+            cont.invokeOnCancellation { signal.cancel() }
+            try {
+                @Suppress("DEPRECATION")
+                LocationManagerCompat.getCurrentLocation(
+                    manager,
+                    provider,
+                    signal,
+                    ContextCompat.getMainExecutor(context)
+                ) { loc ->
+                    if (cont.isActive) {
+                        cont.resume(loc?.toLocationFix())
+                    }
+                }
+            } catch (_: SecurityException) {
+                if (cont.isActive) cont.resume(null)
+            } catch (_: Exception) {
+                if (cont.isActive) cont.resume(null)
+            }
         }
     }
 
